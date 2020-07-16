@@ -10,6 +10,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.*;
 
+import static org.apache.http.entity.ContentType.*;
+
 @Service
 public class UserProfileService {
 
@@ -31,12 +33,13 @@ public class UserProfileService {
             throw new IllegalStateException("No file selected");
         }
         //if it is an img
-        if(Arrays.asList(ContentType.IMAGE_JPEG.getMimeType(), ContentType.IMAGE_PNG.getMimeType(), ContentType.IMAGE_GIF.getMimeType()).contains(file.getContentType())) {
+        if(!Arrays.asList(IMAGE_JPEG.getMimeType(), IMAGE_PNG.getMimeType(), IMAGE_GIF.getMimeType()).contains(file.getContentType())) {
             throw new IllegalStateException("No file selected");
         }
 
         //if user exists
-        UserProfile user = userProfileDataAccessService.getUserProfiles()
+        UserProfile user = userProfileDataAccessService
+                .getUserProfiles()
                 .stream()
                 .filter(userProfile -> userProfile.getUserId().equals(userProfileId))
                 .findFirst()
@@ -46,7 +49,7 @@ public class UserProfileService {
         metadata.put("Content-Type", file.getContentType());
         metadata.put("Content-Length", String.valueOf(file.getSize()));
 
-        String path = String.format("%s/%s", BucketName.PROFILE_IMAGE,userProfileId);
+        String path = String.format("%s/%s", BucketName.PROFILE_IMAGE,user.getUserId());
         String namefile = String.format("%s-%s", file.getName(), userProfileId);
 
         try {
