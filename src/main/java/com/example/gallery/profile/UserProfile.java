@@ -9,11 +9,31 @@ public class UserProfile {
     private UUID userId;
     private String name;
     private String userProfileImageLink;
+    private String height;
+    private String weight;
 
-    public UserProfile(UUID userId, String name, String userProfileImageLink) {
+    public String getHeight() {
+        return height;
+    }
+
+    public void setHeight(String height) {
+        this.height = height;
+    }
+
+    public String getWeight() {
+        return weight;
+    }
+
+    public void setWeight(String weight) {
+        this.weight = weight;
+    }
+
+    public UserProfile(UUID userId, String name, String userProfileImageLink, String height, String weight) {
         this.userId = userId;
         this.name = name;
         this.userProfileImageLink = userProfileImageLink;
+        this.height = height;
+        this.weight = weight;
     }
 
     public UUID getUserId() {

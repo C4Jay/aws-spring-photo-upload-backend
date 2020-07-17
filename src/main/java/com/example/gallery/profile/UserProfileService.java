@@ -83,4 +83,9 @@ public class UserProfileService {
 
 
     }
+
+    public UUID setUserProfile(String name, String height, String weight) {
+        return userProfileDataAccessService.setUserProfile(name, height, weight);
+    }
+
 }

@@ -11,7 +11,8 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("api/v1/user-profile")
-@CrossOrigin("*")
+//@CrossOrigin("*")
+@CrossOrigin(origins = "*")
 public class UserProfileController {
 
     private final UserProfileService userProfileService;
@@ -40,5 +41,13 @@ public class UserProfileController {
     @GetMapping("{userProfileId}/image/dwnld")
     public byte[] dwnldUserProfileImage(@PathVariable("userProfileId") UUID userProfileId) {
         return userProfileService.dwnldUserProfileImage(userProfileId);
+    }
+
+
+    @PostMapping(path = "/set-user/{name}/{height}/{weight}")
+//    @RequestMapping(value = "/set-user/{name}", method = RequestMethod.POST)
+//    @ResponseBody
+    public UUID setUserProfile(@PathVariable("name") String name, @PathVariable("height") String height, @PathVariable("weight") String weight) {
+        return userProfileService.setUserProfile(name, height, weight);
     }
 }
