@@ -37,7 +37,7 @@ public class UserProfileService {
             throw new IllegalStateException("No file selected");
         }
 
-        //if user exists
+//        if user exists
 //        UserProfile user = userProfileDataAccessService
 //                .getUserProfiles()
 //                .stream()
@@ -49,11 +49,17 @@ public class UserProfileService {
         metadata.put("Content-Type", file.getContentType());
         metadata.put("Content-Length", String.valueOf(file.getSize()));
 
-        String path = String.format("%s/%s", BucketName.PROFILE_IMAGE.getBucketName(), /*user.getUserId()*/ userProfileId);
-        String namefile = String.format("%s-%s", file.getName(), userProfileId);
+        String path = String.format("%s/%s", BucketName.PROFILE_IMAGE.getBucketName(), userProfileId );
+        String namefile = String.format("%s-%s", file.getOriginalFilename(), UUID.randomUUID());
 
         try {
             fileStore.save(path, namefile, Optional.of(metadata), file.getInputStream());
+            UserProfile user = userProfileDataAccessService.getUserProfiles()
+                    .stream()
+                    .filter(userprofile -> userprofile.getUserId().equals(userProfileId))
+                    .findFirst()
+                    .orElseThrow(() -> new IllegalStateException("no user"));
+            user.setUserProfileImageLink(namefile);
         } catch (IOException e) {
             throw new IllegalStateException(e);
         }
