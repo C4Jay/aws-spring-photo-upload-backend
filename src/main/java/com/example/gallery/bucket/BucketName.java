@@ -2,7 +2,7 @@ package com.example.gallery.bucket;
 
 public enum BucketName {
 
-    PROFILE_IMAGE("gallery-storage");
+    PROFILE_IMAGE("aws-photo-bucket-storage-2");
 
     private final String bucketName;
 

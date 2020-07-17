@@ -38,18 +38,18 @@ public class UserProfileService {
         }
 
         //if user exists
-        UserProfile user = userProfileDataAccessService
-                .getUserProfiles()
-                .stream()
-                .filter(userProfile -> userProfile.getUserId().equals(userProfileId))
-                .findFirst()
-                .orElseThrow(() -> new IllegalStateException(String.format("user profile %s does not exist", userProfileId)));
+//        UserProfile user = userProfileDataAccessService
+//                .getUserProfiles()
+//                .stream()
+//                .filter(userProfile -> userProfile.getUserId().equals(userProfileId))
+//                .findFirst()
+//                .orElseThrow(() -> new IllegalStateException(String.format("user profile %s does not exist", userProfileId)));
 
         Map<String, String> metadata = new HashMap<>();
         metadata.put("Content-Type", file.getContentType());
         metadata.put("Content-Length", String.valueOf(file.getSize()));
 
-        String path = String.format("%s/%s", BucketName.PROFILE_IMAGE,user.getUserId());
+        String path = String.format("%s/%s", BucketName.PROFILE_IMAGE.getBucketName(), /*user.getUserId()*/ userProfileId);
         String namefile = String.format("%s-%s", file.getName(), userProfileId);
 
         try {

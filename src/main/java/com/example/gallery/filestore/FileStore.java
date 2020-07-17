@@ -33,7 +33,7 @@ public class FileStore {
         try {
             s3.putObject(path, fileName, inputStream, metadata);
         } catch (AmazonServiceException er) {
-            throw new IllegalStateException("Couldn't save", er);
+            throw new IllegalStateException(er);
         }
     }
 }
