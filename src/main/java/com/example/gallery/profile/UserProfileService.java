@@ -65,4 +65,22 @@ public class UserProfileService {
         }
 
     }
+
+
+    byte[] dwnldUserProfileImage(UUID userProfileId) {
+        UserProfile user = userProfileDataAccessService
+                .getUserProfiles()
+                .stream()
+                .filter(userProfile -> userProfile.getUserId().equals(userProfileId))
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("no user"));
+        String path = String.format("%s/%s", BucketName.PROFILE_IMAGE.getBucketName(), userProfileId );
+
+        return user.getUserProfileImageLink()
+                .map(key -> fileStore.dwnld(path, key))
+                .orElse(new byte[0]);
+
+
+
+    }
 }
